@@ -2,5 +2,7 @@ node_modules
 .svelte-kit
 build
 .env
+.env.deploy
 data
+deploy-bundle.tar.gz
 .DS_Store

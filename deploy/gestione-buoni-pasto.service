@@ -1,0 +1,17 @@
+[Unit]
+Description=Gestione Buoni Pasto
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/gestione-buoni-pasto
+Environment=NODE_ENV=production
+EnvironmentFile=/opt/gestione-buoni-pasto/.env
+ExecStart=/usr/bin/node /opt/gestione-buoni-pasto/build/index.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
