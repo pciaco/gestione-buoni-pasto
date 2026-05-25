@@ -57,11 +57,14 @@ export function startSession(cookies: Cookies, userId: number): void {
 
 	createSession(userId, sessionId, expiresAt);
 
+	// Secure solo con HTTPS esplicito (COOKIE_SECURE=true). Su http://LAN il login fallirebbe altrimenti.
+	const cookieSecure = process.env.COOKIE_SECURE === 'true';
+
 	cookies.set(SESSION_COOKIE, signSessionId(sessionId), {
 		path: '/',
 		httpOnly: true,
 		sameSite: 'lax',
-		secure: process.env.NODE_ENV === 'production',
+		secure: cookieSecure,
 		maxAge: SESSION_DAYS * 24 * 60 * 60
 	});
 }
