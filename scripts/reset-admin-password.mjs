@@ -46,7 +46,7 @@ db.exec(`
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		username TEXT NOT NULL UNIQUE,
 		password_hash TEXT NOT NULL,
-		created_at TEXT NOT NULL DEFAULT (datetime('now'))
+		created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 	);
 	CREATE TABLE IF NOT EXISTS sessions (
 		id TEXT PRIMARY KEY,
@@ -58,7 +58,7 @@ db.exec(`
 		user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 		original_filename TEXT NOT NULL,
 		stored_filename TEXT NOT NULL,
-		uploaded_at TEXT NOT NULL DEFAULT (datetime('now'))
+		uploaded_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 	);
 	CREATE TABLE IF NOT EXISTS vouchers (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
