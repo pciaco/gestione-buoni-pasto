@@ -30,9 +30,7 @@ export const actions: Actions = {
 			return fail(400, { actionError: 'Impossibile segnare come usato.' });
 		}
 		const v = getVoucher(locals.user!.id, voucherId);
-		const docUrl = v
-			? `/document/${v.document_id}${v.status === 'available' ? '' : '?filter=used'}`
-			: '/';
+		const docUrl = v ? `/document/${v.document_id}?filter=available` : '/';
 		throw redirect(303, docUrl);
 	},
 	restore: async ({ locals, params }) => {
