@@ -8,6 +8,7 @@ User=www-data
 Group=www-data
 WorkingDirectory=/opt/gestione-buoni-pasto
 Environment=NODE_ENV=production
+Environment=COOKIE_SECURE=false
 EnvironmentFile=/opt/gestione-buoni-pasto/.env
 ExecStart=/usr/bin/node /opt/gestione-buoni-pasto/build/index.js
 Restart=on-failure
