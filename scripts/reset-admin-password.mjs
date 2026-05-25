@@ -48,6 +48,32 @@ db.exec(`
 		password_hash TEXT NOT NULL,
 		created_at TEXT NOT NULL DEFAULT (datetime('now'))
 	);
+	CREATE TABLE IF NOT EXISTS sessions (
+		id TEXT PRIMARY KEY,
+		user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+		expires_at TEXT NOT NULL
+	);
+	CREATE TABLE IF NOT EXISTS documents (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+		original_filename TEXT NOT NULL,
+		stored_filename TEXT NOT NULL,
+		uploaded_at TEXT NOT NULL DEFAULT (datetime('now'))
+	);
+	CREATE TABLE IF NOT EXISTS vouchers (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		document_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+		user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+		page_number INTEGER NOT NULL,
+		code TEXT NOT NULL,
+		value_eur INTEGER,
+		expiry TEXT,
+		status TEXT NOT NULL DEFAULT 'available' CHECK (status IN ('available', 'used')),
+		used_at TEXT,
+		UNIQUE(user_id, code)
+	);
+	CREATE INDEX IF NOT EXISTS idx_vouchers_document ON vouchers(document_id);
+	CREATE INDEX IF NOT EXISTS idx_vouchers_status ON vouchers(user_id, status);
 `);
 
 const hash = bcrypt.hashSync(password, 12);
